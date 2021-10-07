@@ -6,7 +6,7 @@ class Graph:
     def __init__(self):
         self.alphabet = global_alphabet  #алфавит языка
         self.start_vertex = int(start_vertex)
-        self.terminal_vartexes = terminal_vertexes
+        self.terminal_vertexes = terminal_vertexes
         self.edges = edges
         self.vertex_cnt = int(vertex_cnt)
 

@@ -8,9 +8,6 @@ import visualization
 
 fin = open(sys.argv[1], 'r').read()
 fout = open(sys.argv[1] + '.out', 'w')
-graph = machine_parser.analyse(fin, fout)
+machine = machine_parser.analyse(fin, fout)
 
-G = visualization.draw_graph(graph)
-
-
-print(graph.vertex_cnt)
+G = visualization.draw_graph(machine)
