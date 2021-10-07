@@ -1,0 +1,1 @@
+alphabet:ab ||Q:(2) start:(0) T:(1) function:(0)(1)(1)(2).(1)(1)(1)(2).
