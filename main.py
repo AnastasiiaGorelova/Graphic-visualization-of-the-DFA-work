@@ -10,4 +10,4 @@ fin = open(sys.argv[1], 'r').read()
 fout = open(sys.argv[1] + '.out', 'w')
 machine = machine_parser.analyse(fin, fout)
 
-G = visualization.draw_graph(machine)
+visualization.draw_graph(machine, sys.argv[1] + '.out')
