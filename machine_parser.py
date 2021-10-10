@@ -28,6 +28,7 @@ edges = []
 one_start_vertex = True
 passed_checkers = True
 correct_input = True
+max_vert = 0
 
 
 def t_newline(t):
@@ -88,7 +89,7 @@ def t_T(t):
 
 def t_function(t):
     r'unction:.+'
-    global edges
+    global edges, max_vert
     str = t.value[8:]
     сur = ""
     cnt = 0
@@ -104,6 +105,7 @@ def t_function(t):
             cur = ""
         elif i == '.':
             edges.append(current_edge)
+            max_vert = max(max_vert, int(current_edge[0]), int(current_edge[1])) # НОВОЕ
             current_edge = ["", "", ""]
             cnt = 0
         else:
