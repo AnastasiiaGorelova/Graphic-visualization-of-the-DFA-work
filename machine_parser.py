@@ -3,14 +3,17 @@ import sys
 import re
 
 
-class Graph:
-    def __init__(self):
-        self.alphabet = global_alphabet  # алфавит языка
-        self.start_vertex = int(start_vertex)
-        self.terminal_vertexes = terminal_vertexes
-        self.edges = edges
-        self.vertex_cnt = int(vertex_cnt)
+class graph:
+    alphabet = []
+    vertex_cnt = ""
+    start_vertex = ""
+    terminal_vertexes = []
+    edges = []
 
+
+one_start_vertex = True
+passed_checkers = True
+correct_input = True
 
 tokens = [
     'alphabet',
@@ -19,15 +22,6 @@ tokens = [
     'T',
     'function'
 ]
-
-global_alphabet = []
-vertex_cnt = ""
-start_vertex = ""
-terminal_vertexes = []
-edges = []
-one_start_vertex = True
-passed_checkers = True
-correct_input = True
 
 
 def t_newline(t):
@@ -45,25 +39,22 @@ def t_alphabet(t):
     r'alphabet:.+ \|\|'
     s = t.value[9:-3]
     for i in s:
-        global_alphabet.append(i)
+        graph.alphabet.append(i)
     return t
 
 
 def t_Q(t):
     r'Q:\(.+ s'
-    global vertex_cnt
-    vertex_cnt = t.value[3:-3]
+    graph.vertex_cnt = t.value[3:-3]
     return t
 
 
 def t_start(t):
     r'tart:.+ T'
-    global start_vertex
-    # start_vertex = t.value[6:-3]
     str = t.value[6:-3]
     for i in str:
         if i != ')':
-            start_vertex = start_vertex + i
+            graph.start_vertex = graph.start_vertex + i
         else:
             global one_start_vertex
             one_start_vertex = False
@@ -73,12 +64,11 @@ def t_start(t):
 
 def t_T(t):
     r':\(.+ f'
-    global terminal_vertexes
     str = t.value[1:-2]
     сur = ""
     for i in str:
         if i == ')':
-            terminal_vertexes.append(cur)
+            graph.terminal_vertexes.append(cur)
         elif i == '(':
             cur = ""
         else:
@@ -88,7 +78,6 @@ def t_T(t):
 
 def t_function(t):
     r'unction:.+'
-    global edges
     str = t.value[8:]
     сur = ""
     cnt = 0
@@ -99,11 +88,11 @@ def t_function(t):
                 current_edge[cnt] = cur
                 cnt += 1
             else:
-                current_edge[cnt] = current_edge[cnt] + global_alphabet[int(cur) - 1]
+                current_edge[cnt] = current_edge[cnt] + graph.alphabet[int(cur) - 1]
         elif i == '(':
             cur = ""
         elif i == '.':
-            edges.append(current_edge)
+            graph.edges.append(current_edge)
             current_edge = ["", "", ""]
             cnt = 0
         else:
@@ -168,7 +157,7 @@ def determinism_and_completeness_checking(fout, graph):
         fout.write("PASSED: machine is complete\n")
 
 
-def print_analysis(fout, graph):
+def print_analysis(fout):
     if correct_input == False:
         fout.write("Incorrect input format" + "\n")
     fout.write("Analyzing the machine...\nAlphabet:\n")
@@ -183,7 +172,7 @@ def print_analysis(fout, graph):
         fout.write("transition from " + i[0] + " to " + i[1] + " by \"" + i[2] + "\"\n")
 
 
-def test_machine(fout, graph):
+def test_machine(fout):
     fout.write("\nTesting the machine...\n")
     fout.write(alphabet_checking(graph) + "\n")
     fout.write(start_vertex_checking(graph) + "\n")
@@ -200,7 +189,6 @@ def analyse(fin, fout):
         tok = lexer.token()
         if not tok:
             break
-    graph = Graph()
-    print_analysis(fout, graph)
-    test_machine(fout, graph)
+    print_analysis(fout)
+    test_machine(fout)
     return graph

@@ -6,7 +6,7 @@ import machine_parser
 
 
 def build_graph(G, machine):
-    G.add_nodes_from(list(range(machine.vertex_cnt)))
+    G.add_nodes_from(list(range(int(machine.vertex_cnt))))
     edges = []
     for i in machine.edges:
         edges.append((int(i[0]), int(i[1])))
@@ -27,7 +27,7 @@ def set_edge_labels(G, machine):
 def paint_vertices(G, machine, D):
     colour_map = {}
     for i in G.nodes:
-        if i == machine.start_vertex:
+        if i == int(machine.start_vertex):
             colour_map[i] = 'darkviolet'
         elif str(i) in machine.terminal_vertexes:
             colour_map[i] = 'grey'
