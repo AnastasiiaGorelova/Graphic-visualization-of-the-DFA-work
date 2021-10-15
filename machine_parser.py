@@ -23,6 +23,19 @@ tokens = [
     'function'
 ]
 
+<<<<<<< HEAD
+=======
+global_alphabet = []
+vertex_cnt = ""
+start_vertex = ""
+terminal_vertexes = []
+edges = []
+one_start_vertex = True
+passed_checkers = True
+correct_input = True
+max_vert = 0
+
+>>>>>>> validation
 
 def t_newline(t):
     r'\n+'
