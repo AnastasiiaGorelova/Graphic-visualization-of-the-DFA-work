@@ -37,8 +37,8 @@ def validation_dfs(string, start, n, adjacency):
 def validation(string, start, n):
     term = validation_dfs(string, start, n, make_adjacency())
     if str(term) in machine_parser.terminal_vertexes:
-        print("OK")
+        # print("OK")
         return 1
     else:
-        print("NO")
+        # print("NO")
         return 0

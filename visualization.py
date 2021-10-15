@@ -66,5 +66,8 @@ def draw_graph(machine, filename, valide):
 
     pos = D.layout('dot')
 
-    D.draw(filename + '.pdf')
-    # D.draw(filename + '.svg')  # тоже неплохо поддерживается
+    ready_image = filename + '.png'
+
+    D.draw(ready_image)
+
+    return ready_image
