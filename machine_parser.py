@@ -9,6 +9,7 @@ class graph:
     start_vertex = ""
     terminal_vertexes = []
     edges = []
+    max_vert = 0
 
 
 one_start_vertex = True
@@ -22,20 +23,6 @@ tokens = [
     'T',
     'function'
 ]
-
-<<<<<<< HEAD
-=======
-global_alphabet = []
-vertex_cnt = ""
-start_vertex = ""
-terminal_vertexes = []
-edges = []
-one_start_vertex = True
-passed_checkers = True
-correct_input = True
-max_vert = 0
-
->>>>>>> validation
 
 def t_newline(t):
     r'\n+'
