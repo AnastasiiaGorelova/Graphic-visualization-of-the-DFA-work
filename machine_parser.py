@@ -79,7 +79,6 @@ def t_T(t):
 
 def t_function(t):
     r'unction:.+'
-    global edges, max_vert
     str = t.value[8:]
     сur = ""
     cnt = 0
@@ -103,18 +102,27 @@ def t_function(t):
     return t
 
 
-def alphabet_checking(graph):
+def clear():
+    Graph.alphabet = []
+    Graph.vertex_cnt = ""
+    Graph.start_vertex = ""
+    Graph.terminal_vertexes = []
+    Graph.edges = []
+    Graph.max_vert = 0
+
+
+def alphabet_checking():
     global passed_checkers
-    if len(graph.alphabet) == len(set(graph.alphabet)):
+    if len(Graph.alphabet) == len(set(Graph.alphabet)):
         return "PASSED: Alphabet elements are unique"
     else:
         passed_checkers = False
         return "NOT PASSED: Alphabet elements are not unique"
 
 
-def start_vertex_checking(graph):
+def start_vertex_checking():
     global passed_checkers
-    if graph.start_vertex == "":
+    if Graph.start_vertex == "":
         passed_checkers = False
         return "NOT PASSED: Initial state does not found"
     elif one_start_vertex == False:
@@ -124,22 +132,22 @@ def start_vertex_checking(graph):
         return "RASSED: Initial state is the only one"
 
 
-def machine_states_checking(graph):
+def machine_states_checking():
     global passed_checkers
-    if len(graph.terminal_vertexes) == len(set(graph.terminal_vertexes)):
+    if len(Graph.terminal_vertexes) == len(set(Graph.terminal_vertexes)):
         return "PASSED: States are unique"
     else:
         passed_checkers = False
         return "NOT PASSED: States are not unique"
 
 
-def determinism_and_completeness_checking(fout, graph):
+def determinism_and_completeness_checking(fout):
     global passed_checkers
     l = []
     checker = True
-    for i in range(int(graph.vertex_cnt)):
+    for i in range(int(Graph.vertex_cnt)):
         l.append("")
-    for i in graph.edges:
+    for i in Graph.edges:
         l[int(i[0])] = l[int(i[0])] + i[2]
     for i in l:
         if len(i) != len(set(i)):
@@ -151,7 +159,7 @@ def determinism_and_completeness_checking(fout, graph):
         fout.write("PASSED: machine is deterministic\n")
     checker = True
     for i in l:
-        if len(set(i)) < len(graph.alphabet):
+        if len(set(i)) < len(Graph.alphabet):
             passed_checkers = False
             fout.write("NOT PASSED: machine is not complete\n")
             checker = False
@@ -177,15 +185,17 @@ def print_analysis(fout):
 
 def test_machine(fout):
     fout.write("\nTesting the machine...\n")
-    fout.write(alphabet_checking(Graph) + "\n")
-    fout.write(start_vertex_checking(Graph) + "\n")
-    fout.write(machine_states_checking(Graph) + "\n")
-    determinism_and_completeness_checking(fout, Graph)
+    fout.write(alphabet_checking() + "\n")
+    fout.write(start_vertex_checking() + "\n")
+    fout.write(machine_states_checking() + "\n")
+    determinism_and_completeness_checking(fout)
     if passed_checkers:
         fout.write("Well done!\n")
 
 
 def analyse(fin, fout):
+    clear()
+    print(Graph.edges)
     lexer = lex.lex()
     lexer.input(fin)
     while True:
@@ -194,4 +204,5 @@ def analyse(fin, fout):
             break
     print_analysis(fout)
     test_machine(fout)
+    print(Graph.edges)
     return Graph

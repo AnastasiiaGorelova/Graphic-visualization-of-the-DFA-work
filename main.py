@@ -33,8 +33,8 @@ def display_automate():
         r.mainloop()
     except FileNotFoundError:
         messagebox.showinfo("ERROR", "File not found")
-    except Exception:
-        messagebox.showinfo("ERROR", "wtf?!")
+    # except Exception:
+    #     messagebox.showinfo("ERROR", "wtf?!")
 
 
 def display_validation():
@@ -61,8 +61,8 @@ def display_validation():
 
     except FileNotFoundError:
         messagebox.showinfo("ERROR", "File not found")
-    except Exception:
-        messagebox.showinfo("ERROR", "wtf?!")
+    # except Exception:
+    #     messagebox.showinfo("ERROR", "wtf?!")
 
 
 ###########
