@@ -1,6 +1,8 @@
 import ply.lex as lex
 import sys
 import re
+from tkinter import *
+from tkinter import messagebox
 
 
 class Graph:
@@ -33,6 +35,7 @@ def t_newline(t):
 def t_error(t):
     global correct_input
     correct_input = False
+    messagebox.showinfo("INCORRECT INPUT!", "Incorrect input format")
     t.lexer.skip(1)
 
 
@@ -109,42 +112,39 @@ def clear():
     Graph.terminal_vertexes = []
     Graph.edges = []
     Graph.max_vert = 0
+    global one_start_vertex, passed_checkers, correct_input
+    one_start_vertex = True
+    passed_checkers = True
+    correct_input = True
 
 
 def alphabet_checking():
     global passed_checkers
-    if len(Graph.alphabet) == len(set(Graph.alphabet)):
-        return "PASSED: Alphabet elements are unique"
-    else:
+    if len(Graph.alphabet) != len(set(Graph.alphabet)):
         passed_checkers = False
-        return "NOT PASSED: Alphabet elements are not unique"
+        messagebox.showinfo("INCORRECT MACHINE!", "Alphabet elements are not unique")
 
 
 def start_vertex_checking():
     global passed_checkers
     if Graph.start_vertex == "":
         passed_checkers = False
-        return "NOT PASSED: Initial state does not found"
+        messagebox.showinfo("INCORRECT MACHINE!", "Initial state does not found :(")
     elif one_start_vertex == False:
         passed_checkers = False
-        return "NOT PASSED: Initial state is not the only one"
-    else:
-        return "RASSED: Initial state is the only one"
+        messagebox.showinfo("INCORRECT MACHINE!", "Initial state is not the only one")
 
 
 def machine_states_checking():
     global passed_checkers
-    if len(Graph.terminal_vertexes) == len(set(Graph.terminal_vertexes)):
-        return "PASSED: States are unique"
-    else:
+    if len(Graph.terminal_vertexes) != len(set(Graph.terminal_vertexes)):
         passed_checkers = False
-        return "NOT PASSED: States are not unique"
+        messagebox.showinfo("INCORRECT MACHINE!", "States are not unique")
 
 
-def determinism_and_completeness_checking(fout):
+def determinism_and_completeness_checking():
     global passed_checkers
     l = []
-    checker = True
     for i in range(int(Graph.vertex_cnt)):
         l.append("")
     for i in Graph.edges:
@@ -152,57 +152,29 @@ def determinism_and_completeness_checking(fout):
     for i in l:
         if len(i) != len(set(i)):
             passed_checkers = False
-            fout.write("NOT PASSED: machine is not determenistic\n")
-            checker = False
+            messagebox.showinfo("INCORRECT MACHINE!", "Machine is not determenistic")
             break
-    if checker:
-        fout.write("PASSED: machine is deterministic\n")
-    checker = True
     for i in l:
         if len(set(i)) < len(Graph.alphabet):
             passed_checkers = False
-            fout.write("NOT PASSED: machine is not complete\n")
-            checker = False
+            messagebox.showinfo("INCORRECT MACHINE!", "Machine is not complete")
             break
-    if checker:
-        fout.write("PASSED: machine is complete\n")
 
 
-def print_analysis(fout):
-    if not correct_input:
-        fout.write("Incorrect input format" + "\n")
-    fout.write("Analyzing the machine...\nAlphabet:\n")
-    for s in Graph.alphabet:
-        fout.write(s + ' ')
-    fout.write("\nVertex count:\n" + str(Graph.vertex_cnt) + "\nStart state: \n" + str(
-        Graph.start_vertex) + "\nTerminal states: \n")
-    for i in Graph.terminal_vertexes:
-        fout.write(i + ' ')
-    fout.write("\nEdges: \n")
-    for i in Graph.edges:
-        fout.write("transition from " + i[0] + " to " + i[1] + " by \"" + i[2] + "\"\n")
+def test_machine():
+    alphabet_checking()
+    start_vertex_checking()
+    machine_states_checking()
+    determinism_and_completeness_checking()
 
 
-def test_machine(fout):
-    fout.write("\nTesting the machine...\n")
-    fout.write(alphabet_checking() + "\n")
-    fout.write(start_vertex_checking() + "\n")
-    fout.write(machine_states_checking() + "\n")
-    determinism_and_completeness_checking(fout)
-    if passed_checkers:
-        fout.write("Well done!\n")
-
-
-def analyse(fin, fout):
+def analyse(fin):
     clear()
-    print(Graph.edges)
     lexer = lex.lex()
     lexer.input(fin)
     while True:
         tok = lexer.token()
         if not tok:
             break
-    print_analysis(fout)
-    test_machine(fout)
-    print(Graph.edges)
+    test_machine()
     return Graph
