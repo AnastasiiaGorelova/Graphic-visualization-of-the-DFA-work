@@ -8,9 +8,11 @@ import validation
 
 def build_graph(G, machine):
     G.add_nodes_from(list(range(int(machine.vertex_cnt))))
+    G.add_node(int(machine.vertex_cnt))
     edges = []
     for i in machine.edges:
         edges.append((int(i[0]), int(i[1])))
+    edges.append((int(machine.vertex_cnt), int(machine.start_vertex)))
     G.add_edges_from(edges)
 
 
@@ -22,6 +24,7 @@ def set_edge_labels(G, machine):
     labelseee = {}
     for i in machine.edges:
         labelseee[(int(i[0]), int(i[1]))] = i[2]
+    labelseee[(int(machine.vertex_cnt), int(machine.start_vertex))] = ""
     nx.set_edge_attributes(G, {(e[0], e[1]): {'label': labelseee[(e[0], e[1])]} for e in G.edges(data=True)})
 
 
@@ -32,6 +35,8 @@ def paint_vertices(G, machine, D):
             colour_map[i] = 'darkviolet'
         elif str(i) in machine.terminal_vertexes:
             colour_map[i] = 'pink'
+            n = D.get_node(i)
+            n.attr['shape'] = 'doublecircle'
         else:
             colour_map[i] = 'grey'
 
@@ -40,6 +45,11 @@ def paint_vertices(G, machine, D):
         n.attr['color'] = 'black'
         n.attr['style'] = 'filled'
         n.attr['fillcolor'] = colour_map[int(n)]
+    n = D.get_node(int(machine.vertex_cnt))
+    n.attr['label'] = ""
+    n.attr['color'] = 'white'
+    n.attr['style'] = 'filled'
+    n.attr['fillcolor'] = 'white'
 
 
 def paint_edges(D, valide):
@@ -69,5 +79,6 @@ def draw_graph(machine, filename, valide):
     ready_image = filename + '.png'
 
     D.draw(ready_image)
+    #D.draw('example.svg')
 
     return ready_image
