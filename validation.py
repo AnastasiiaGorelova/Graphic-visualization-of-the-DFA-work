@@ -11,8 +11,11 @@ class Edge:
         self.to = to
         self.frm = frm
 
+    valide_edges = []
 
-valide_edges = []
+
+def clear():
+    Edge.valide_edges = []
 
 
 def make_adjacency():
@@ -23,7 +26,6 @@ def make_adjacency():
 
 
 def validation_dfs(string, start, n, adjacency):
-    global valide_edges
     for j in range(len(adjacency[start])):
         to = adjacency[start][j][0]
         func = adjacency[start][j][1]
@@ -32,12 +34,13 @@ def validation_dfs(string, start, n, adjacency):
         if func.find(string[n]) == -1:
             continue
         elif func.find(string[n]) != -1:
-            valide_edges.append(Edge(start, int(to)))
+            Edge.valide_edges.append(Edge(start, int(to)))
             return validation_dfs(string, int(to), n + 1, adjacency)
     return start
 
 
 def validation(string, start, n):
+    clear()
     term = validation_dfs(string, start, n, make_adjacency())
     if str(term) in machine_parser.Graph.terminal_vertexes:
         # print("OK")

@@ -44,7 +44,7 @@ def paint_vertices(G, machine, D):
 
 def paint_edges(D, valide):
     if valide:
-        for i in validation.valide_edges:
+        for i in validation.Edge.valide_edges:
             n = D.get_edge(int(i.to), int(i.frm))
             n.attr['color'] = 'red'
     else:
