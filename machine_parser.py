@@ -3,7 +3,7 @@ import sys
 import re
 
 
-class graph:
+class Graph:
     alphabet = []
     vertex_cnt = ""
     start_vertex = ""
@@ -40,13 +40,13 @@ def t_alphabet(t):
     r'alphabet:.+ \|\|'
     s = t.value[9:-3]
     for i in s:
-        graph.alphabet.append(i)
+        Graph.alphabet.append(i)
     return t
 
 
 def t_Q(t):
     r'Q:\(.+ s'
-    graph.vertex_cnt = t.value[3:-3]
+    Graph.vertex_cnt = t.value[3:-3]
     return t
 
 
@@ -55,7 +55,7 @@ def t_start(t):
     str = t.value[6:-3]
     for i in str:
         if i != ')':
-            graph.start_vertex = graph.start_vertex + i
+            Graph.start_vertex = Graph.start_vertex + i
         else:
             global one_start_vertex
             one_start_vertex = False
@@ -69,7 +69,7 @@ def t_T(t):
     сur = ""
     for i in str:
         if i == ')':
-            graph.terminal_vertexes.append(cur)
+            Graph.terminal_vertexes.append(cur)
         elif i == '(':
             cur = ""
         else:
@@ -90,12 +90,12 @@ def t_function(t):
                 current_edge[cnt] = cur
                 cnt += 1
             else:
-                current_edge[cnt] = current_edge[cnt] + graph.alphabet[int(cur) - 1]
+                current_edge[cnt] = current_edge[cnt] + Graph.alphabet[int(cur) - 1]
         elif i == '(':
             cur = ""
         elif i == '.':
-            graph.edges.append(current_edge)
-            graph.max_vert = max(graph.max_vert, int(current_edge[0]), int(current_edge[1])) # НОВОЕ
+            Graph.edges.append(current_edge)
+            Graph.max_vert = max(Graph.max_vert, int(current_edge[0]), int(current_edge[1]))  # НОВОЕ
             current_edge = ["", "", ""]
             cnt = 0
         else:
@@ -161,26 +161,26 @@ def determinism_and_completeness_checking(fout, graph):
 
 
 def print_analysis(fout):
-    if correct_input == False:
+    if not correct_input:
         fout.write("Incorrect input format" + "\n")
     fout.write("Analyzing the machine...\nAlphabet:\n")
-    for s in graph.alphabet:
+    for s in Graph.alphabet:
         fout.write(s + ' ')
-    fout.write("\nVertex count:\n" + str(graph.vertex_cnt) + "\nStart state: \n" + str(
-        graph.start_vertex) + "\nTerminal states: \n")
-    for i in graph.terminal_vertexes:
+    fout.write("\nVertex count:\n" + str(Graph.vertex_cnt) + "\nStart state: \n" + str(
+        Graph.start_vertex) + "\nTerminal states: \n")
+    for i in Graph.terminal_vertexes:
         fout.write(i + ' ')
     fout.write("\nEdges: \n")
-    for i in graph.edges:
+    for i in Graph.edges:
         fout.write("transition from " + i[0] + " to " + i[1] + " by \"" + i[2] + "\"\n")
 
 
 def test_machine(fout):
     fout.write("\nTesting the machine...\n")
-    fout.write(alphabet_checking(graph) + "\n")
-    fout.write(start_vertex_checking(graph) + "\n")
-    fout.write(machine_states_checking(graph) + "\n")
-    determinism_and_completeness_checking(fout, graph)
+    fout.write(alphabet_checking(Graph) + "\n")
+    fout.write(start_vertex_checking(Graph) + "\n")
+    fout.write(machine_states_checking(Graph) + "\n")
+    determinism_and_completeness_checking(fout, Graph)
     if passed_checkers:
         fout.write("Well done!\n")
 
@@ -194,4 +194,4 @@ def analyse(fin, fout):
             break
     print_analysis(fout)
     test_machine(fout)
-    return graph
+    return Graph

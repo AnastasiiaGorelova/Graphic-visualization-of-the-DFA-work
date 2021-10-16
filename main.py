@@ -12,45 +12,57 @@ from tkinter import messagebox
 
 def clear():
     automate_entry.delete(0, END)
-    automate_entry.delete(0, END)
+    validation_entry.delete(0, END)
 
 
 def display_automate():
-    fin = open(automate_entry.get(), 'r').read()
-    fout = open(automate_entry.get() + '-parser' + '.txt', 'w')
-    machine = machine_parser.analyse(fin, fout)
+    try:
+        fin = open(automate_entry.get(), 'r').read()
+        fout = open(automate_entry.get() + '-parser' + '.txt', 'w')
+        machine = machine_parser.analyse(fin, fout)
 
-    ready_image = visualization.draw_graph(machine, automate_entry.get() + '-automate', 0)
+        ready_image = visualization.draw_graph(machine, automate_entry.get() + '-automate', 0)
 
-    r = Toplevel()
-    r.title("Displaying automate")
-
-    canvas = Canvas(r, height=500, width=500)
-    canvas.pack()
-    my_image = PhotoImage(file=str(ready_image), master=root)
-    canvas.create_image(0, 0, anchor=NW, image=my_image)
-    r.mainloop()
-
-
-def display_validation():
-    fin = open(automate_entry.get(), 'r').read()
-    fout = open(automate_entry.get() + '.out', 'w')
-    machine = machine_parser.analyse(fin, fout)
-
-    v = validation.validation(validation_entry.get(), int(machine_parser.start_vertex), 0)
-
-    if v != 0:
-        ready_image = visualization.draw_graph(machine, automate_entry.get() + '-validation', 1)
         r = Toplevel()
-        r.title("Displaying validation of: \"" + str(validation_entry.get()) + "\"")
+        r.title("Displaying automate")
 
         canvas = Canvas(r, height=500, width=500)
         canvas.pack()
         my_image = PhotoImage(file=str(ready_image), master=root)
         canvas.create_image(0, 0, anchor=NW, image=my_image)
         r.mainloop()
-    else:
-        messagebox.showinfo("UpS", validation_entry.get() + "is not in our language")
+    except FileNotFoundError:
+        messagebox.showinfo("ERROR", "File not found")
+    except Exception:
+        messagebox.showinfo("ERROR", "wtf?!")
+
+
+def display_validation():
+    try:
+        fin = open(automate_entry.get(), 'r').read()
+        fout = open(automate_entry.get() + '.out', 'w')
+        machine = machine_parser.analyse(fin, fout)
+
+        v = validation.validation(validation_entry.get(), int(machine_parser.Graph.start_vertex), 0)
+
+        if v != 0:
+            ready_image = visualization.draw_graph(machine, automate_entry.get() + '-validation', 1)
+            r = Toplevel()
+            r.title("Displaying validation of: \"" + str(validation_entry.get()) + "\"")
+
+            canvas = Canvas(r, height=500, width=500)
+            canvas.pack()
+            my_image = PhotoImage(file=str(ready_image), master=root)
+            canvas.create_image(0, 0, anchor=NW, image=my_image)
+            r.mainloop()
+        else:
+            messagebox.showinfo("UpS", "\"" + validation_entry.get() + "\" is not in our language")
+
+
+    except FileNotFoundError:
+        messagebox.showinfo("ERROR", "File not found")
+    except Exception:
+        messagebox.showinfo("ERROR", "wtf?!")
 
 
 ###########

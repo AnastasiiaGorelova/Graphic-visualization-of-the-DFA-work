@@ -31,9 +31,9 @@ def paint_vertices(G, machine, D):
         if i == int(machine.start_vertex):
             colour_map[i] = 'darkviolet'
         elif str(i) in machine.terminal_vertexes:
-            colour_map[i] = 'grey'
-        else:
             colour_map[i] = 'pink'
+        else:
+            colour_map[i] = 'grey'
 
     for i in D.nodes():
         n = D.get_node(i)
