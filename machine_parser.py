@@ -9,6 +9,7 @@ class graph:
     start_vertex = ""
     terminal_vertexes = []
     edges = []
+    max_vert = 0
 
 
 one_start_vertex = True
@@ -78,6 +79,7 @@ def t_T(t):
 
 def t_function(t):
     r'unction:.+'
+    global edges, max_vert
     str = t.value[8:]
     сur = ""
     cnt = 0
@@ -93,6 +95,7 @@ def t_function(t):
             cur = ""
         elif i == '.':
             graph.edges.append(current_edge)
+            graph.max_vert = max(graph.max_vert, int(current_edge[0]), int(current_edge[1])) # НОВОЕ
             current_edge = ["", "", ""]
             cnt = 0
         else:

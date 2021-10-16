@@ -3,6 +3,7 @@ import numpy as npy
 import matplotlib.pyplot as plt
 
 import machine_parser
+import validation
 
 
 def build_graph(G, machine):
@@ -41,11 +42,16 @@ def paint_vertices(G, machine, D):
         n.attr['fillcolor'] = colour_map[int(n)]
 
 
-def paint_edges(D):
-    D.edge_attr.update(color='black', arrowsize=1)
+def paint_edges(D, valide):
+    if valide:
+        for i in validation.valide_edges:
+            n = D.get_edge(int(i.to), int(i.frm))
+            n.attr['color'] = 'red'
+    else:
+        D.edge_attr.update(color='black', arrowsize=1)
 
 
-def draw_graph(machine, filename):
+def draw_graph(machine, filename, valide):
     G = nx.DiGraph()
 
     build_graph(G, machine)
@@ -56,9 +62,12 @@ def draw_graph(machine, filename):
     D = nx.drawing.nx_agraph.to_agraph(G)  # makes graphiz graph from nx
 
     paint_vertices(G, machine, D)
-    paint_edges(D)
+    paint_edges(D, valide)
 
     pos = D.layout('dot')
 
-    # D.draw(filename + '.pdf')
-    D.draw(filename + '.svg')  # тоже неплохо поддерживается
+    ready_image = filename + '.png'
+
+    D.draw(ready_image)
+
+    return ready_image
