@@ -20,7 +20,7 @@ def display_automate():
         fin = open(automate_entry.get(), 'r').read()
         machine = machine_parser.analyse(fin)
 
-        ready_image = visualization.draw_graph(machine, automate_entry.get() + '-automate', 0)
+        ready_image = visualization.draw_graph(machine, automate_entry.get() + '-automaton', 0)
 
         r = Toplevel()
         r.title("Displaying automate")
@@ -28,7 +28,7 @@ def display_automate():
         canvas = Canvas(r, height=500, width=500)
         canvas.pack()
         my_image = PhotoImage(file=str(ready_image), master=root)
-        canvas.create_image(0, 0, anchor=NW, image=my_image)
+        canvas.create_image(0, -30, anchor=NW, image=my_image)
         r.mainloop()
     except FileNotFoundError:
         messagebox.showinfo("ERROR", "File not found")
@@ -51,7 +51,7 @@ def display_validation():
                 canvas = Canvas(r, height=500, width=500)
                 canvas.pack()
                 my_image = PhotoImage(file=str(ready_image), master=root)
-                canvas.create_image(0, 0, anchor=NW, image=my_image)
+                canvas.create_image(0, -30, anchor=NW, image=my_image)
                 r.mainloop()
             else:
                 messagebox.showinfo("UpS", "\"" + validation_entry.get() + "\" is not in our language")
@@ -67,8 +67,8 @@ def display_validation():
 root = Tk()
 root.title("Graphic-visualization-of-the-DFA-work")
 
-automate_label = Label(text="Введите файл где лежит автомат:")
-validation_label = Label(text="Введите строчку:")
+automate_label = Label(text="Enter a file with automaton:")
+validation_label = Label(text="Enter a string:")
 
 automate_label.grid(row=0, column=0, sticky="w")
 validation_label.grid(row=1, column=0, sticky="w")
@@ -79,7 +79,7 @@ validation_entry = Entry()
 automate_entry.grid(row=0, column=1, padx=5, pady=5)
 validation_entry.grid(row=1, column=1, padx=5, pady=5)
 
-display_automate_button = Button(text="Show automate", command=display_automate)
+display_automate_button = Button(text="Show automaton", command=display_automate)
 display_validation_button = Button(text="Show validation", command=display_validation)
 clear_button = Button(text="Clear", command=clear)
 

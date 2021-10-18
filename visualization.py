@@ -78,7 +78,6 @@ def draw_graph(machine, filename, valide):
 
     ready_image = filename + '.png'
 
-    D.draw(ready_image)
-    #D.draw('example.svg')
+    D.draw(path=ready_image, format='png')
 
     return ready_image
