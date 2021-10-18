@@ -19,18 +19,21 @@
 
 ## Запуск приложения
 ### Прежде всего, понадобится установить некоторые библиотеки для запуска приложения  
-* PyGraphviz  
-[Рекомендации по установке можно найти тут](https://pygraphviz.github.io/documentation/stable/install.html)  
-* Matplotlib  
-[Рекомендации по установке можно найти тут](https://matplotlib.org/stable/users/installing.html)
+* PyGraphviz    
+    [Рекомендации по установке можно найти тут](https://pygraphviz.github.io/documentation/stable/install.html)  
+
+* Matplotlib    
+    [Рекомендации по установке можно найти тут](https://matplotlib.org/stable/users/installing.html)
+
 * Networkx  
-[Рекомендации по установке можно найти тут](https://networkx.org/documentation/stable/install.html)
-* Tkinter
+    [Рекомендации по установке можно найти тут](https://networkx.org/documentation/stable/install.html)
+
+* Tkinter   
+    [Рекомендации по установке можно найти тут](https://www.tutorialspoint.com/how-to-install-tkinter-in-python)
 
 ### Готовы к запуску
-```
+```bash
 python main.py
-
 ```
 А дальше следуем инструкциям в появившемся окошке!)
 
