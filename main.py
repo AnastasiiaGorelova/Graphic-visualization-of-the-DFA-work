@@ -23,12 +23,14 @@ def display_automate():
         ready_image = visualization.draw_graph(machine, automate_entry.get() + '-automaton', 0)
 
         r = Toplevel()
-        r.title("Displaying automate")
+        r.title("Displaying automaton")
 
-        canvas = Canvas(r, height=500, width=500)
-        canvas.pack()
         my_image = PhotoImage(file=str(ready_image), master=root)
-        canvas.create_image(0, -30, anchor=NW, image=my_image)
+        canvas_width = max(my_image.width(), 300)
+        canvas_height = my_image.height()
+        canvas = Canvas(r, height=canvas_height, width=canvas_width)
+        canvas.pack()
+        canvas.create_image(canvas_width / 2, 0, anchor=N, image=my_image)
         r.mainloop()
     except FileNotFoundError:
         messagebox.showinfo("ERROR", "File not found")
@@ -48,10 +50,12 @@ def display_validation():
                 r = Toplevel()
                 r.title("Displaying validation of: \"" + str(validation_entry.get()) + "\"")
 
-                canvas = Canvas(r, height=500, width=500)
-                canvas.pack()
                 my_image = PhotoImage(file=str(ready_image), master=root)
-                canvas.create_image(0, -30, anchor=NW, image=my_image)
+                canvas_width = max(my_image.width(), 300)
+                canvas_height = my_image.height()
+                canvas = Canvas(r, height=canvas_height, width=canvas_width)
+                canvas.pack()
+                canvas.create_image(canvas_width / 2, 0, anchor=N, image=my_image)
                 r.mainloop()
             else:
                 messagebox.showinfo("UpS", "\"" + validation_entry.get() + "\" is not in our language")
@@ -80,7 +84,7 @@ automate_entry.grid(row=0, column=1, padx=5, pady=5)
 validation_entry.grid(row=1, column=1, padx=5, pady=5)
 
 display_automate_button = Button(text="Show automaton", command=display_automate)
-display_validation_button = Button(text="Show validation", command=display_validation)
+display_validation_button = Button(text="Show string matching with automaton", command=display_validation)
 clear_button = Button(text="Clear", command=clear)
 
 display_automate_button.grid(row=2, column=0, padx=5, pady=5, sticky="e")

@@ -31,6 +31,8 @@ def set_edge_labels(G, machine):
 def paint_vertices(G, machine, D):
     colour_map = {}
     for i in G.nodes:
+        n = D.get_node(i)
+        n.attr['shape'] = 'circle'
         if i == int(machine.start_vertex):
             colour_map[i] = 'darkviolet'
         elif str(i) in machine.terminal_vertexes:

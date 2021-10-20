@@ -123,24 +123,24 @@ def alphabet_checking():
     global passed_checkers
     if len(Graph.alphabet) != len(set(Graph.alphabet)):
         passed_checkers = False
-        messagebox.showinfo("INCORRECT MACHINE!", "Alphabet elements are not unique")
+        messagebox.showinfo("INCORRECT AUTOMATON!", "Alphabet elements are not unique")
 
 
 def start_vertex_checking():
     global passed_checkers
     if Graph.start_vertex == "":
         passed_checkers = False
-        messagebox.showinfo("INCORRECT MACHINE!", "Initial state does not found :(")
+        messagebox.showinfo("INCORRECT AUTOMATON!", "Initial state does not found :(")
     elif one_start_vertex == False:
         passed_checkers = False
-        messagebox.showinfo("INCORRECT MACHINE!", "Initial state is not the only one")
+        messagebox.showinfo("INCORRECT AUTOMATON!", "Initial state is not the only one")
 
 
-def machine_states_checking():
+def automaton_states_checking():
     global passed_checkers
     if len(Graph.terminal_vertexes) != len(set(Graph.terminal_vertexes)):
         passed_checkers = False
-        messagebox.showinfo("INCORRECT MACHINE!", "States are not unique")
+        messagebox.showinfo("INCORRECT AUTOMATON!", "States are not unique")
 
 
 def determinism_and_completeness_checking():
@@ -154,19 +154,19 @@ def determinism_and_completeness_checking():
         if len(i) != len(set(i)):
             passed_checkers = False
             passed_checkers_for_validation = False
-            messagebox.showinfo("INCORRECT MACHINE!", "Machine is not determenistic")
+            messagebox.showinfo("INCORRECT AUTOMATON!", "automaton is not determenistic")
             break
     for i in l:
         if len(set(i)) < len(Graph.alphabet):
             passed_checkers = False
-            messagebox.showinfo("INCORRECT MACHINE!", "Machine is not complete")
+            messagebox.showinfo("INCORRECT AUTOMATON!", "automaton is not complete")
             break
 
 
-def test_machine():
+def test_automaton():
     alphabet_checking()
     start_vertex_checking()
-    machine_states_checking()
+    automaton_states_checking()
     determinism_and_completeness_checking()
 
 
@@ -178,5 +178,5 @@ def analyse(fin):
         tok = lexer.token()
         if not tok:
             break
-    test_machine()
+    test_automaton()
     return Graph
