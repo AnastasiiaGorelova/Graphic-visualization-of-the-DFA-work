@@ -17,6 +17,7 @@ class Graph:
 one_start_vertex = True
 passed_checkers = True
 correct_input = True
+passed_checkers_for_validation = True
 
 tokens = [
     'alphabet',
@@ -143,7 +144,7 @@ def machine_states_checking():
 
 
 def determinism_and_completeness_checking():
-    global passed_checkers
+    global passed_checkers, passed_checkers_for_validation
     l = []
     for i in range(int(Graph.vertex_cnt)):
         l.append("")
@@ -152,6 +153,7 @@ def determinism_and_completeness_checking():
     for i in l:
         if len(i) != len(set(i)):
             passed_checkers = False
+            passed_checkers_for_validation = False
             messagebox.showinfo("INCORRECT MACHINE!", "Machine is not determenistic")
             break
     for i in l:

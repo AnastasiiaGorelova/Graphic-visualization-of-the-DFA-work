@@ -40,7 +40,7 @@ def display_validation():
     try:
         fin = open(automate_entry.get(), 'r').read()
         machine = machine_parser.analyse(fin)
-        if machine_parser.passed_checkers == True:
+        if machine_parser.passed_checkers_for_validation == True:
             v = validation.validation(validation_entry.get(), int(machine_parser.Graph.start_vertex), 0)
 
             if v != 0:
