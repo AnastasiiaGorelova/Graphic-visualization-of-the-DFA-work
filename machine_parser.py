@@ -56,8 +56,8 @@ def t_Q(t):
 
 def t_start(t):
     r'tart:.+ T'
-    str = t.value[6:-3]
-    for i in str:
+    string = t.value[6:-3]
+    for i in string:
         if i != ')':
             Graph.start_vertex = Graph.start_vertex + i
         else:
@@ -113,10 +113,11 @@ def clear():
     Graph.terminal_vertexes = []
     Graph.edges = []
     Graph.max_vert = 0
-    global one_start_vertex, passed_checkers, correct_input
+    global one_start_vertex, passed_checkers, correct_input, passed_checkers_for_validation
     one_start_vertex = True
     passed_checkers = True
     correct_input = True
+    passed_checkers_for_validation = True
 
 
 def alphabet_checking():
@@ -131,7 +132,7 @@ def start_vertex_checking():
     if Graph.start_vertex == "":
         passed_checkers = False
         messagebox.showinfo("INCORRECT AUTOMATON!", "Initial state does not found :(")
-    elif one_start_vertex == False:
+    elif not one_start_vertex:
         passed_checkers = False
         messagebox.showinfo("INCORRECT AUTOMATON!", "Initial state is not the only one")
 

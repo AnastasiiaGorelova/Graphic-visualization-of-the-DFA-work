@@ -44,7 +44,7 @@ def validation(string, start, n):
     term = validation_dfs(string, start, n, make_adjacency())
     if str(term) in machine_parser.Graph.terminal_vertexes:
         # print("OK")
-        return 1
+        return True
     else:
         # print("NO")
-        return 0
+        return False

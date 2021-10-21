@@ -15,6 +15,16 @@ def clear():
     validation_entry.delete(0, END)
 
 
+def draw_window(r, ready_image):
+    my_image = PhotoImage(file=str(ready_image), master=root)
+    canvas_width = max(my_image.width(), 300)
+    canvas_height = my_image.height()
+    canvas = Canvas(r, height=canvas_height, width=canvas_width)
+    canvas.pack()
+    canvas.create_image(canvas_width / 2, 0, anchor=N, image=my_image)
+    r.mainloop()
+
+
 def display_automate():
     try:
         fin = open(automate_entry.get(), 'r').read()
@@ -25,13 +35,7 @@ def display_automate():
         r = Toplevel()
         r.title("Displaying automaton")
 
-        my_image = PhotoImage(file=str(ready_image), master=root)
-        canvas_width = max(my_image.width(), 300)
-        canvas_height = my_image.height()
-        canvas = Canvas(r, height=canvas_height, width=canvas_width)
-        canvas.pack()
-        canvas.create_image(canvas_width / 2, 0, anchor=N, image=my_image)
-        r.mainloop()
+        draw_window(r, ready_image)
     except FileNotFoundError:
         messagebox.showinfo("ERROR", "File not found")
     except Exception:
@@ -42,21 +46,15 @@ def display_validation():
     try:
         fin = open(automate_entry.get(), 'r').read()
         machine = machine_parser.analyse(fin)
-        if machine_parser.passed_checkers_for_validation == True:
+        if machine_parser.passed_checkers_for_validation:
             v = validation.validation(validation_entry.get(), int(machine_parser.Graph.start_vertex), 0)
-
-            if v != 0:
+            if v:
                 ready_image = visualization.draw_graph(machine, automate_entry.get() + '-validation', 1)
+
                 r = Toplevel()
                 r.title("Displaying validation of: \"" + str(validation_entry.get()) + "\"")
 
-                my_image = PhotoImage(file=str(ready_image), master=root)
-                canvas_width = max(my_image.width(), 300)
-                canvas_height = my_image.height()
-                canvas = Canvas(r, height=canvas_height, width=canvas_width)
-                canvas.pack()
-                canvas.create_image(canvas_width / 2, 0, anchor=N, image=my_image)
-                r.mainloop()
+                draw_window(r, ready_image)
             else:
                 messagebox.showinfo("UpS", "\"" + validation_entry.get() + "\" is not in our language")
 
